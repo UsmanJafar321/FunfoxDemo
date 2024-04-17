@@ -1,0 +1,56 @@
+﻿@using Manager
+@{
+    Layout = null;
+}
+
+<style>
+    .aMobile {
+        color: white;
+    }
+    .dMobile {
+        text-align: center;
+        padding: 7px;
+        background-color: #0b8973;
+        border: solid white;
+    }
+</style>
+
+
+
+<div class="hidden-sm hidden-md hidden-lg">
+    <div class="list-group">
+        <ul class="list-item">
+            <li itemprop="url">
+                <div class="row" style="margin-bottom:10px">
+                    <div class="col-xs-4 dMobile">
+                        <a class="aMobile" href="~/Users/WelcomePage">Dashboard</a>
+
+                    </div>
+                    <div class="col-xs-4 dMobile">
+                        <a class="aMobile" href="~/Users/OrderHistory">My Orders</a>
+
+                    </div>
+
+                </div>
+                <div class="row" style="margin-bottom:10px">
+
+                    <div class="col-xs-4 dMobile">
+                        <a class="aMobile" href="~/Users/ChangePassword">Password</a>
+
+                    </div>
+                    <div class="col-xs-4 dMobile">
+                        <a class="aMobile" href="~/Users/Account">My Account</a>
+
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom:10px">
+                    <div class="col-xs-4 dMobile">
+                        <a class="aMobile" href="~/Accounts/Logout">Logout</a>
+                    </div>
+                </div>
+            </li>
+
+
+        </ul>
+    </div>
+</div>

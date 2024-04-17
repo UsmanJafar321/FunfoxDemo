@@ -1,0 +1,186 @@
+﻿@using Manager
+@{
+    Layout = null;
+    string image = "noImage.png";
+    string name = "Expires";
+    int userTypeID = 0;
+    if (Session[SessionKeys.UserID] != null)
+    {
+        userTypeID = Convert.ToInt32(Session[SessionKeys.UserTypeID]);
+        image = Convert.ToString(Session[SessionKeys.Photo]);
+        name = Convert.ToString(Session[SessionKeys.Name]);
+    }
+    bool hasSaleAccess = false;
+    bool hasCatalogAccess = false;
+    bool hasContentAccess = false;
+    bool hasCustomerAccess = false;
+    bool hasSystemUserAccess = false;
+    if (userTypeID==(int)UserTypesEnum.Admin)
+    {
+        hasSaleAccess = true;
+        hasCatalogAccess = true;
+        hasContentAccess = true;
+        hasCustomerAccess = true;
+        hasSystemUserAccess = true;
+    }
+    if (userTypeID==(int)UserTypesEnum.Editor)
+    {
+        hasSaleAccess = true;
+        hasCatalogAccess = true;
+        hasContentAccess = true;
+        hasCustomerAccess = false;
+        hasSystemUserAccess = false;
+    }
+}
+
+<section>
+    <!-- Left Sidebar -->
+    <aside id="leftsidebar" class="sidebar">
+        <!-- User Info -->
+        <div class="user-info" style="height:80px !important">
+            <div class="info-container">
+
+                <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@name</div>
+                <div class="btn-group user-helper-dropdown">
+                    <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
+                    <ul class="dropdown-menu pull-right">
+                        <li><a href="~/Dashboard/ManageUsers/UserProfile"><i class="material-icons">person</i>Profile</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="~/Accounts/Logout/"><i class="material-icons">input</i>Sign Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- #User Info -->
+        <!-- Menu -->
+        <div class="menu">
+            <ul class="list">
+                <li class="header">MAIN NAVIGATION</li>
+                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageDashboard" ? "active" : "")">
+                    <a href="~/Dashboard/ManageDashboard/Index">
+                        <i class="material-icons">home</i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                @{
+                    
+
+                   
+
+                    if (hasSaleAccess)
+                    {
+
+                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageOrders" ? "active" : "")  @(ViewContext.RouteData.Values["Controller"].ToString() == "ManageShipment" ? "active" : "") @(ViewContext.RouteData.Values["Controller"].ToString() == "ManageOrderByPhoto" ? "active" : "")">
+                    <a href="javascript:void(0);" class="menu-toggle">
+                        <i class="material-icons">add_shopping_cart</i>
+                        <span>Sales</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageOrders" ? "active" : "")">
+                            <a href="~/Dashboard/ManageOrders/Index">Orders</a>
+                        </li>
+                    </ul>
+                </li>
+                    }
+                    if (hasCatalogAccess)
+                    {
+                        <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageProductBundles" ? "active" : "") @(ViewContext.RouteData.Values["Controller"].ToString() == "ManageProducts" ? "active" : "") @(ViewContext.RouteData.Values["Controller"].ToString() == "ManageProductTypes" ? "active" : "")  @(ViewContext.RouteData.Values["Controller"].ToString() == "ManageBrands" ? "active" : "")  @(ViewContext.RouteData.Values["Controller"].ToString() == "ManageCategories" ? "active" : "")">
+                            <a href="javascript:void(0);" class="menu-toggle">
+                                <i class="material-icons">business</i>
+                                <span>Catalog</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageProducts" ? "active" : "")">
+                                    <a href="~/Dashboard/ManageProducts/Index">Products</a>
+                                </li>
+                                
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageProducts" ? "active" : "")">
+                                    <a href="~/Dashboard/ManageProducts/Update">Product Prices</a>
+                                </li>
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageProducts" ? "active" : "")">
+                                    <a href="~/Dashboard/ManageProducts/Print">Rate List</a>
+                                </li>
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageCategories" ? "active" : "")">
+                                    <a href="~/Dashboard/ManageCategories/Index">Categories</a>
+                                </li>
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageProductTypes" ? "active" : "")">
+                                    <a href="~/Dashboard/ManageProductTypes/Index">Product Types</a>
+                                </li>
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageBrands" ? "active" : "")">
+                                    <a href="~/Dashboard/ManageBrands/Index">Brands</a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    if (hasContentAccess)
+                    {
+                        <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageSliders" ? "active" : "") || 
+                            @(ViewContext.RouteData.Values["Controller"].ToString() == "ManageSubscribers" ? "active" : "") 
+                             @(ViewContext.RouteData.Values["Controller"].ToString() == "ManageEnquiry" ? "active" : "") 
+                            @(ViewContext.RouteData.Values["Controller"].ToString() == "ManageStaticPages" ? "active" : "") 
+                             @(ViewContext.RouteData.Values["Controller"].ToString() == "ManageTestimonials" ? "active" : "")">
+                            <a href="javascript:void(0);" class="menu-toggle">
+                                <i class="material-icons">pages</i>
+                                <span>Content</span>
+                            </a>
+                            <ul class="ml-menu">
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageSliders" ? "active" : "")">
+                                    <a href="~/Dashboard/ManageSliders/Index">Sliders</a>
+                                </li>
+                               
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageEnquiry" ? "active" : "")">
+                                    <a href="~/Dashboard/ManageEnquiry/Index">Enquiries</a>
+                                </li>
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageStaticPages" ? "active" : "")">
+                                    <a href="~/Dashboard/ManageStaticPages/Index">Static Pages</a>
+                                </li>
+                                
+
+                            </ul>
+                        </li>
+                    }
+                    
+                    
+                    if (hasCustomerAccess)
+                    {
+                        <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageVendor" ? "active" : "") 
+                            @(ViewContext.RouteData.Values["Controller"].ToString() == "ManageRetailers" ? "active" : "") 
+                             @(ViewContext.RouteData.Values["Controller"].ToString() == "ManageCustomers" ? "active" : "") ">
+                            <a href="javascript:void(0);" class="menu-toggle">
+                                <i class="material-icons">wc</i>
+                                <span>Manage Customers</span>
+                            </a>
+                            <ul class="ml-menu">
+
+                                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageCustomers" ? "active" : "")">
+                                    <a href="~/Dashboard/ManageCustomers/Index">Manage Customer</a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    if (hasSystemUserAccess)
+                    {
+                        <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "ManageEditors" ? "active" : "")">
+                            <a href="~/Dashboard/ManageEditors/Index">
+                                <i class="material-icons">perm_contact_calendar</i>
+                                <span>System Users</span>
+                            </a>
+                        </li>
+                    }
+                   
+
+                }
+            </ul>
+        </div>
+        <!-- #Menu -->
+        <!-- Footer -->
+        <div class="legal">
+            <div class="copyright">
+                &copy; @DateTime.Now.Year <a href="javascript:void(0);">dVoxe</a>.
+            </div>
+        </div>
+        <!-- #Footer -->
+    </aside>
+    <!-- #END# Left Sidebar -->
+</section>

@@ -1,0 +1,143 @@
+﻿@using Manager
+@using System.Configuration
+
+@{
+    Layout = null;
+}
+@model VM.AccountsVM
+@{
+    string pagetitle = "Login/Register";
+
+    <title>@pagetitle </title>
+    <meta charset="utf-8">
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    @*<meta http-equiv="refresh" content="300">*@
+    <title>@ViewBag.Title</title>
+    <!-- Favicon-->
+    <link rel="shortcut icon" type="image/png" href="~/Common/FrontendTheme/ico/favicon-16x16.png" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <!-- Bootstrap Core Css -->
+    <link href="~/Common/BackendTheme/plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <!-- Waves Effect Css -->
+    <link href="~/Common/BackendTheme/plugins/node-waves/waves.css" rel="stylesheet" />
+    <!-- Animation Css -->
+    <link href="~/Common/BackendTheme/plugins/animate-css/animate.css" rel="stylesheet" />
+    <!-- Morris Chart Css-->
+    <link href="~/Common/BackendTheme/plugins/morrisjs/morris.css" rel="stylesheet" />
+    <!-- Select Css-->
+    <link href="~/Common/BackendTheme/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+    <!-- Custom Css -->
+    <link href="~/Common/BackendTheme/css/style.css" rel="stylesheet">
+    <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
+    <link href="~/Common/BackendTheme/css/themes/all-themes.css" rel="stylesheet" />
+    <!-- Bootstrap Material Datetime Picker Css -->
+    <link href="~/Common/BackendTheme/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+    <!-- Bootstrap DatePicker Css -->
+    <link href="~/Common/BackendTheme/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+    <link href="~/Common/BackendTheme/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css" rel="stylesheet">
+    <!-- Jquery Core Js -->
+    <script src="~/Common/BackendTheme/plugins/jquery/jquery.min.js"></script>
+    <script src="~/Common/BackendTheme/plugins/jquery-datatable/jquery.dataTables.js"></script>
+    <script src="~/Common/BackendTheme/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js"></script>
+    <script src="~/Common/BackendTheme/js/pages/tables/jquery-datatable.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+</head>
+<body>
+    <div class="main-container container">
+        <div class="row">
+            <div id="content" class="col-sm-12">
+                <div class="page-login">
+
+                    <div class="account-border">
+                        <div class="row">
+                            @*<div class="col-sm-6 customer-login">
+                                    @using (Html.BeginForm("Register", "Accounts", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="well">
+                                            @if (TempData[TempDataKeys.RegisterTemp] != null)
+                                            {
+                                                <label class="alert alert-danger">@TempData[TempDataKeys.RegisterTemp]</label>
+                                            }
+                                            <h2><i class="fa fa-file-text-o" aria-hidden="true"></i> New Customer</h2>
+                                            <p><strong>I am a new customer</strong></p>
+                                            <div class="form-group">
+                                                <label class="control-label " for="input-email">Name</label>
+                                                @Html.TextBoxFor(a => a.Name, new { @class = "form-control", @placeholder = "Name", @required = "autofocus" })
+                                                @Html.ValidationMessageFor(a => a.Name, "", new { @style = "color:red" })
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label class="control-label ">Phone</label>
+                                                @Html.TextBoxFor(a => a.RegisterPhone, new { @class = "form-control", @placeholder = "Phone", @required = "autofocus" })
+                                                @Html.ValidationMessageFor(a => a.RegisterPhone, "", new { @style = "color:red" })
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label " for="input-emails">E-Mail Address</label>
+
+                                                @Html.TextBoxFor(a => a.Email, new { @type = "email", @class = "form-control", @placeholder = "E-Mail", @required = "autofocus" })
+                                                @Html.ValidationMessageFor(a => a.Email, "", new { @style = "color:red" })
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label " for="input-passwordrs">Password</label>
+                                                @Html.TextBoxFor(a => a.RegisterPassword, new { @type = "password", @class = "form-control", @placeholder = "Password", @required = "autofocus" })
+                                                @Html.ValidationMessageFor(a => a.RegisterPassword, "", new { @style = "color:red" })
+                                            </div>
+                                        </div>
+                                        <div class="bottom-form">
+                                            <input type="submit" value="Register" class="btn btn-default pull-right" />
+                                        </div>
+
+
+                                    }
+                                </div>*@
+
+                            @using (Html.BeginForm("Login", "Accounts", FormMethod.Post, new { enctype = "multipart/form-data", id = "Login", name = "Login" }))
+                            {
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="col-sm-6 customer-login" style="margin-top:10%!important; margin-left:25%!important;">
+                                    <div class="well">
+                                        @if (TempData[TempDataKeys.LoginTemp] != null)
+                                        {
+                                            <label class="alert alert-danger">@TempData[TempDataKeys.LoginTemp]</label>
+                                        }
+                                        <h2><i class="fa fa-file-text-o" aria-hidden="true"></i> Login</h2>
+                                        <div class="form-group">
+                                            <label class="control-label " for="input-email">Email</label>
+                                            @Html.TextBoxFor(a => a.LoginEmail, new { @type = "text", @class = "form-control", @placeholder = "Email", @required = "autofocus" })
+                                            @Html.ValidationMessageFor(a => a.LoginEmail, "", new { @style = "color:red" })
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label " for="input-password">Password</label>
+                                            @Html.TextBoxFor(a => a.LoginPassword, new { @type = "password", @class = "form-control", @placeholder = "Password", @required = "autofocus" })
+                                            @Html.ValidationMessageFor(a => a.LoginPassword, "", new { @style = "color:red" })
+                                        </div>
+                                    </div>
+                                    <div class="bottom-form">
+                                        <a href="~/Accounts/ForgotPassword" class="forgot">Forgotten Password</a>
+                                        @*<a href="~/Accounts/Register" class="forgot">Register</a>*@
+
+
+                                        <input type="submit" value="Login" class="btn btn-default pull-right" />
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

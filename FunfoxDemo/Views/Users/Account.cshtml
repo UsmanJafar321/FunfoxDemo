@@ -1,0 +1,77 @@
+﻿@using Manager
+@model Entity.User
+@using System.Configuration
+@{
+    string pagetitle = "My Account";
+    string domainname = ConfigurationManager.AppSettings["DomainUrl"];
+}
+@section metataqs{
+
+    <title>@pagetitle | @domainname </title>
+}
+<div class="main-container container">
+    <ul class="breadcrumb">
+        <li><a href="~/"><i class="fa fa-home"></i></a></li>
+        <li><a href="#">My Account</a></li>
+    </ul>
+
+    <div class="row">
+        <!--Middle Part Start-->
+        <div class="col-sm-9" id="content">
+            <h2 class="title">My Account</h2>
+            <p class="lead">Hello, <strong>@Session[SessionKeys.Name]</strong> - To update your account information.</p>
+            @using (Html.BeginForm())
+            {
+                @Html.HiddenFor(a=>a.ID)
+                @Html.HiddenFor(a=>a.CreatedDate)
+                @Html.HiddenFor(a=>a.IsActive)
+                @Html.HiddenFor(a=>a.UserTypeID)
+                @Html.HiddenFor(a => a.Attachment)
+                @Html.HiddenFor(a => a.Phone)
+                @Html.HiddenFor(a => a.Password)
+                @Html.HiddenFor(a => a.City)
+                @Html.HiddenFor(a => a.Country)
+                <div class="row">
+                    @if (TempData[TempDataKeys.SuccessTemp] != null)
+                    {
+                        <label class="alert alert-success" style="width:100%">@TempData[TempDataKeys.SuccessTemp]</label>
+                    }
+                    <div class="col-sm-6">
+                        <fieldset id="personal-details">
+                            <legend>Personal Details</legend>
+                            <div itemprop="firstname" class="form-group required">
+                                <label for="input-firstname" class="control-label">First Name</label>
+                                @Html.TextBoxFor(a => a.FirstName, new { @class = "form-control", @placeholder = "First Name" })
+                            </div>
+                            <div itemprop="lastname" class="form-group required">
+                                <label for="input-lastname" class="control-label">Last Name</label>
+                                @Html.TextBoxFor(a => a.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+                            </div>
+                            <div itemprop="email" class="form-group required">
+                                <label for="input-email" class="control-label">E-Mail</label>
+                                @Html.TextBoxFor(a => a.Email, new { @type = "email", @class = "form-control", @placeholder = "E-Mail" })
+                            </div>
+                            <div itemprop="telephone" class="form-group required">
+                                <label for="input-telephone" class="control-label">Address</label>
+                                @Html.TextBoxFor(a => a.Address, new { @class = "form-control", @placeholder = "Address" })
+                            </div>
+                        </fieldset>
+                        <br>
+                    </div>
+                </div>
+                <div class="buttons clearfix">
+                    <div class="pull-right">
+                        <input type="submit" class="btn btn-md btn-primary" value="Save Changes">
+                    </div>
+                </div>
+            }
+                
+
+        </div>
+        <!--Middle Part End-->
+        <!--Right Part Start -->
+        @Html.Partial("_AsideMenu")
+        <!--Right Part End -->
+    </div>
+</div>
+

@@ -1,0 +1,65 @@
+﻿@using Manager
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList< Entity.Order>
+@using System.Configuration
+@{
+    string pagetitle = "Order History";
+    string domainname = ConfigurationManager.AppSettings["DomainUrl"];
+}
+@section metataqs{
+
+    <title>@pagetitle | @domainname </title>
+}
+<div class="main-container container">
+    <ul class="breadcrumb">
+        <li><a href="~/"><i class="fa fa-home"></i></a></li>
+        <li><a href="#">My Orders</a></li>
+    </ul>
+
+    <div class="row">
+        <!--Middle Part Start-->
+        <div id="content" class="col-sm-9">
+            <h2 class="title">Order History</h2>
+            <div class="table-responsive form-group">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td class="text-left">Order ID</td>
+                            <td class="text-left">Date</td>
+                            <td class="text-left">Total Amount</td>
+                            <td class="text-center">Action</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td itemprop="productid" class="text-left">@item.ID</td>
+                                <td itemprop="dateCreated" class="text-left">
+                                   @item.CreatedDate.ToShortDateString()
+                                </td>
+                                <td itemprop="price" class="text-left">@item.GrandTotal</td>
+                                <td class="text-center">
+                                    <a itemprop="url" href="~/Users/OrderDetail/@item.ID" class="btn btn-warning m-t-15 waves-effect">Detail</a>
+                                </td>
+                            </tr>
+                        }
+                        
+                        
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 text-center">
+                    @Html.PagedListPager(Model, page => Url.Action("OrderHistory", new { page, Model.PageSize }))
+                </div>
+            </div>
+            
+
+
+        </div>
+        <!--Middle Part End-->
+        @Html.Partial("_AsideMenu")
+    </div>
+</div>

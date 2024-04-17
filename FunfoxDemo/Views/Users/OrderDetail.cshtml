@@ -1,0 +1,179 @@
+﻿@using Manager
+@using System.Configuration
+@model IEnumerable<Entity.OrderDetailOrderID_Result>
+@{
+    string pagetitle = "Order Detail";
+    string domainname = ConfigurationManager.AppSettings["DomainUrl"];
+}
+@section metataqs{
+
+    <title>@pagetitle | @domainname </title>
+}
+@{
+    var obj = Model.FirstOrDefault();
+    decimal grandTotal = 0;
+    decimal subtotal = 0;
+    decimal discount = 0;
+}
+<div class="main-container container">
+    <ul class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i></a></li>
+        <li><a href="#">Order Infomation</a></li>
+    </ul>
+
+    <div class="row">
+        <!--Middle Part Start-->
+        <div id="content" class="col-sm-9">
+            <h2 class="title">Order Information</h2>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <td colspan="2" class="text-left">Order Details</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width: 50%;" class="text-left">
+                            <b>Order ID:</b> #@obj.OrderID
+                            <br>
+                            <span itemprop="dateCreated">  <b>Date Added:</b> @obj.CreatedDate.ToShortDateString()</span>
+                        </td>
+                        <td style="width: 50%;" class="text-left">
+                            <b>Payment Method:</b> @obj.PaymentMethodTitle
+                            <br>
+                            <b>Payment Status:</b> @obj.PaymentStatusTitle
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <td style="width: 50%; vertical-align: top;" class="text-left">Payment Address</td>
+                        <td style="width: 50%; vertical-align: top;" class="text-left">Shipping Address</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-left">
+                            <span itemprop="name"> @obj.FirstName</span> <br />
+                            <span itemprop="telephone"> @obj.Phone    </span> <br>
+                            <span itemprop="address"> @obj.Address  </span> <br>
+                            <span itemprop="addressRegion"> @obj.City     </span> <br>
+                            <span itemprop="addressCountry"> @obj.Country  </span> <br>
+                        </td>
+                        <td class="text-left">
+                            <span itemprop="name"> @obj.FirstName</span> <br />
+                            <span itemprop="telephone"> @obj.Phone    </span> <br>
+                            <span itemprop="address"> @obj.Address  </span> <br>
+                            <span itemprop="addressRegion"> @obj.City     </span> <br>
+                            <span itemprop="addressCountry"> @obj.Country  </span> <br>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <td class="text-left">Product Name</td>
+                            <td class="text-right">Quantity</td>
+                            <td class="text-right">Price</td>
+                            <td class="text-right">Total</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td itemprop="name" class="text-left">
+                                @item.ProductTitle </td>
+                                <td itemprop="quantity" class="text-right">@item.Quantity</td>
+                                <td class="text-right"><span itemprop="priceCurrency">@ConfigurationManager.AppSettings["Currency"]</span><span itemprop="price">@item.Price</span>  </td>
+                                <td class="text-right"><span itemprop="priceCurrency">@ConfigurationManager.AppSettings["Currency"]</span><span itemprop="price">@item.TotalAmount</span></td>
+                            </tr>
+                            subtotal = subtotal + item.TotalAmount;
+                            
+
+                        }
+
+
+                    </tbody>
+@if (obj.OrderStatusID == (int)OrderStatusEnum.Pending)
+{
+    bool enableDis = false;
+    enableDis = Convert.ToBoolean(ConfigurationManager.AppSettings["EnableDiscount"]);
+    if (enableDis)
+    {
+        grandTotal = subtotal;
+        if (obj.Discount > 0)
+        {
+            discount = subtotal * (obj.Discount / 100);
+            grandTotal = subtotal - discount;
+        }
+    }
+
+                    <tfoot>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td class="text-right">
+                                <b>Sub-Total</b>
+                            </td>
+                            <td class="text-right"><span itemprop="priceCurrency">@ConfigurationManager.AppSettings["Currency"]</span>  <b id="subTotal"><span itemprop="price">@subtotal</span></b></td>
+                        </tr>
+
+
+                        <tr>
+                            <td colspan="2"></td>
+                            <td class="text-right">
+                                <b>Discount </b>
+                            </td>
+                            <td class="text-right"><span itemprop="priceCurrency">@ConfigurationManager.AppSettings["Currency"]</span>  <b id="dis"><span itemprop="discount">@discount</span> </b></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td class="text-right">
+                                <b>Total</b>
+                            </td>
+                            <td class="text-right"><span itemprop="priceCurrency">@ConfigurationManager.AppSettings["Currency"]</span><b id="grandT"><span itemprop="price">@grandTotal</span>  </b></td>
+                        </tr>
+                    </tfoot>
+}
+else
+{
+    <tfoot>
+        <tr>
+            <td colspan="2"></td>
+            <td class="text-right">
+                <b>Sub-Total</b>
+            </td>
+            <td class="text-right"><span>@ConfigurationManager.AppSettings["Currency"]</span>   <b itemprop="price" id="subTotal"> @obj.SubTotal</b></td>
+        </tr>
+
+
+        <tr>
+            <td colspan="2"></td>
+            <td class="text-right">
+                <b>Discount</b>
+            </td>
+            <td class="text-right"><span itemprop="priceCurrency">@ConfigurationManager.AppSettings["Currency"]</span>  <b itemprop="discount" id="dis">@obj.DiscountAmount</b></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td class="text-right">
+                <b>Total</b>
+            </td>
+            <td class="text-right"><span itemprop="priceCurrency">@ConfigurationManager.AppSettings["Currency"]</span>  <b itemprop="price" id="grandT">@obj.GrandTotal</b></td>
+        </tr>
+    </tfoot>
+}
+                </table>
+            </div>
+        </div>
+        <!--Middle Part End-->
+        <!--Right Part Start -->
+        @Html.Partial("_AsideMenu")
+        <!--Right Part End -->
+    </div>
+</div>
